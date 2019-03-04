@@ -49,7 +49,7 @@ void calcSumArrayTest()
 }
 
 void partitioningTest()
-{/*
+{
 	ASSERT_EQUAL(3025,s_recursive(9,3));
 	ASSERT_EQUAL(22827,s_recursive(10,6));
 	ASSERT_EQUAL(3025,s_dynamic(9,3));
@@ -57,7 +57,7 @@ void partitioningTest()
 	ASSERT_EQUAL(22827,s_dynamic(10,6));
 	ASSERT_EQUAL(5,b_recursive(3));
 	ASSERT_EQUAL(1382958545,b_recursive(15));
-	ASSERT_EQUAL(5,b_dynamic(3));
+	/*ASSERT_EQUAL(5,b_dynamic(3));
 	ASSERT_EQUAL(203,b_dynamic(6));
 	ASSERT_EQUAL(1382958545,b_dynamic(15));
 */}
