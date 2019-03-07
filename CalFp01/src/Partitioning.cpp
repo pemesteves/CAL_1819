@@ -51,13 +51,19 @@ int b_recursive(int n)
 
 int b_dynamic(int n)
 {
+	int values[n + 1];
+
+	for (int i = 1; i <= n; i++) {
+		values[i] = 1;
+		for (int k = i - 1; k > 1; k--)
+			values[k] = values[k-1] + k * values[k];
+	}
+
 	int soma = 0;
+	for (int k = 1; k <= n; k++)
+		soma += values[k];
 
-		for(int k = 1; k <= n; k++){
-			soma += s_dynamic(n, k);
-		}
-
-		return soma;
+	return soma;
 }
 
 
