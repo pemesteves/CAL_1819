@@ -1,7 +1,7 @@
-#include "cute/cute.h"
-#include "cute/ide_listener.h"
-#include "cute/xml_listener.h"
-#include "cute/cute_runner.h"
+#include "../cute/cute.h"
+#include "../cute/ide_listener.h"
+#include "../cute/xml_listener.h"
+#include "../cute/cute_runner.h"
 #include "Sudoku.h"
 #include "Labirinth.h"
 
