@@ -4,6 +4,7 @@
  */
 
 #include "Sudoku.h"
+#include "limits.h"
 
 /** Inicia um Sudoku vazio.
  */
@@ -87,6 +88,59 @@ bool Sudoku::isComplete()
 }
 
 
+tuple<int, int> Sudoku::getPositionWithLessNumbers(){
+	int row = INT_MAX, column = INT_MAX;
+	int min = 10;
+
+	for(int r = 0; r < 9; r++){
+		for(int c = 0; c < 9; c++){
+			if(numbers[r][c] != 0)
+				continue;
+
+			int num_possibilities = 0;
+			for(int n = 1; n <= 9; n++){
+				if(!(lineHasNumber[r][n] || columnHasNumber[c][n] || block3x3HasNumber[r/3][c/3][n]))
+					num_possibilities++;
+			}
+
+			if(num_possibilities == 0)
+				return make_tuple(INT_MAX, INT_MAX);
+
+			if(num_possibilities < min){
+				min = num_possibilities;
+				row = r;
+				column = c;
+			}
+			if(num_possibilities == 1)
+				return make_tuple(r, c);
+		}
+	}
+
+	return make_tuple(row, column);
+}
+
+bool Sudoku::putNumberInPosition(int row, int column){
+	for(int num = 1; num <= 9; num++){
+		if(lineHasNumber[row][num] || columnHasNumber[column][num] || block3x3HasNumber[row/3][column/3][num])
+			continue;
+
+		numbers[row][column] = num;
+		lineHasNumber[row][num] = true;
+		columnHasNumber[column][num] = true;
+		block3x3HasNumber[row/3][column/3][num] = true;
+		countFilled++;
+
+		if(solve())
+			return true;
+
+		numbers[row][column] = 0;
+		lineHasNumber[row][num] = false;
+		columnHasNumber[column][num] = false;
+		block3x3HasNumber[row/3][column/3][num] = false;
+		countFilled--;
+	}
+	return false;
+}
 
 /**
  * Resolve o Sudoku.
@@ -95,6 +149,14 @@ bool Sudoku::isComplete()
 bool Sudoku::solve()
 {
 	if(isComplete())
+		return true;
+
+	tuple<int, int> t = getPositionWithLessNumbers();
+	int row = get<0>(t), column = get<1>(t);
+	if(row == INT_MAX && column == INT_MAX)
+		return false;
+
+	if(putNumberInPosition(row, column))
 		return true;
 
 	return false;

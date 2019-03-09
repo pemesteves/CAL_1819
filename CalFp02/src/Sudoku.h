@@ -12,6 +12,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <tuple>
+
 using namespace std;
 
 #define IllegalArgumentException -1
@@ -33,6 +35,9 @@ class Sudoku
 	bool block3x3HasNumber[3][3][10];
 
 	void initialize();
+
+	tuple<int, int> getPositionWithLessNumbers();
+	bool putNumberInPosition(int row, int column);
 
 public:
 	/** Inicia um Sudoku vazio.
@@ -59,7 +64,6 @@ public:
 	 * Verifica se o Sudoku já está completamente resolvido
 	 */
 	bool isComplete();
-
 
 	/**
 	 * Resolve o Sudoku.
