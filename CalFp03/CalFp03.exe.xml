@@ -1,0 +1,10 @@
+<testsuites>
+	<testsuite name="AllTests" tests="6">
+		<testcase classname="AllTests" name="testNP_BF"/>
+		<testcase classname="AllTests" name="testNP_DC"/>
+		<testcase classname="AllTests" name="testNP_DC_2Threads"/>
+		<testcase classname="AllTests" name="testNP_DC_4Threads"/>
+		<testcase classname="AllTests" name="testNP_DC_8Threads"/>
+		<testcase classname="AllTests" name="testNP_BF_SortedX"/>
+	</testsuite>
+</testsuites>
