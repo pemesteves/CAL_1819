@@ -129,12 +129,16 @@ static Result np_DC(vector<Point> &vp, int left, int right, int numThreads) {
 	int strip_left = middle;
 	int strip_right = middle + 1;
 	for(; strip_left >= left; strip_left--){
-		if(vp[middle].distance(vp[strip_left]) > res.dmin)
+		if(vp[middle].distance(vp[strip_left]) > res.dmin){
+			strip_left++;
 			break;
+		}
 	}
-	for(; strip_right <= right; strip_right--){
-		if(vp[middle].distance(vp[strip_right]) > res.dmin)
+	for(; strip_right <= right; strip_right++){
+		if(vp[middle].distance(vp[strip_right]) > res.dmin){
+			strip_right--;
 			break;
+		}
 	}
 
 	// Order points in strip area by Y coordinate
