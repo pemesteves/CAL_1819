@@ -87,7 +87,7 @@ void test_removeEdge() {
 }
 
 
-void test_dfs() {/*
+void test_dfs() {
 	Graph<Person> net1;
 	createNetwork(net1);
 	vector<Person> v1 = net1.dfs();
@@ -96,10 +96,10 @@ void test_dfs() {/*
 		if (i < v1.size())
 			ASSERT_EQUAL(names[i], v1[i].getName());
 		else
-			ASSERT_EQUAL(names[i], "(null)");*/
+			ASSERT_EQUAL(names[i], "(null)");
 }
 
-void test_bfs() {/*
+void test_bfs() {
 	Graph<Person> net1;
 	createNetwork(net1);
 	vector<Person> v1 = net1.bfs(Person("Ana",19));
@@ -108,10 +108,10 @@ void test_bfs() {/*
 		if (i < v1.size())
 			ASSERT_EQUAL(names[i], v1[i].getName());
 		else
-			ASSERT_EQUAL(names[i], "(null)");*/
+			ASSERT_EQUAL(names[i], "(null)");
 }
 
-void test_removeVertex_Again() {/*
+void test_removeVertex_Again() {
 	Graph<Person> net1;
 	createNetwork(net1);
 	Person p2("Carlos",33);
@@ -119,10 +119,10 @@ void test_removeVertex_Again() {/*
 	vector<Person> v1=net1.dfs();
 	string names[] = {"Ana", "Filipe", "Rui", "Vasco", "Ines", "Maria"};
 	for (unsigned i = 0; i < 6; i++)
-		ASSERT_EQUAL(names[i], v1[i].getName());*/
+		ASSERT_EQUAL(names[i], v1[i].getName());
 }
 
-void test_removeEdge_Again() {/*
+void test_removeEdge_Again() {
 	Graph<Person> net1;
 	createNetwork(net1);
 	Person p5("Maria", 24);
@@ -131,7 +131,7 @@ void test_removeEdge_Again() {/*
 	vector<Person> v1=net1.dfs();
 	string names[] = {"Ana", "Carlos", "Maria", "Filipe", "Rui", "Vasco", "Ines"};
 	for (unsigned i = 0; i < 7; i++)
-		ASSERT_EQUAL(names[i], v1[i].getName());*/
+		ASSERT_EQUAL(names[i], v1[i].getName());
 }
 
 
@@ -191,7 +191,7 @@ void test_isDAG() {/*
 }
 
 
-void test_topsort() {/*
+void test_topsort() {
 	Graph<int> myGraph;
 	myGraph.addVertex(1); myGraph.addVertex(2); myGraph.addVertex(3); myGraph.addVertex(4);
 	myGraph.addVertex(5); myGraph.addVertex(6); myGraph.addVertex(7);
@@ -223,7 +223,7 @@ void test_topsort() {/*
 	ss.str("");
 	for( unsigned int i = 0; i < topOrder.size(); i++)
 		ss << topOrder[i] << " ";
-	ASSERT_EQUAL("", ss.str());*/
+	ASSERT_EQUAL("", ss.str());
 }
 
 

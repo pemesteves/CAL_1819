@@ -6,6 +6,7 @@
 
 #include <vector>
 #include <queue>
+#include <list>
 using namespace std;
 
 template <class T> class Edge;
@@ -217,8 +218,17 @@ bool Graph<T>::removeVertex(const T &in) {
  */
 template <class T>
 vector<T> Graph<T>::dfs() const {
-	// TODO (7 lines)
 	vector<T> res;
+
+	for(auto it = vertexSet.begin(); it != vertexSet.end(); it++){
+		(*it)->visited = false;
+	}
+
+	for(auto it = vertexSet.begin(); it != vertexSet.end(); it++){
+			if(!(*it)->visited){
+				dfsVisit(*it, res);
+			}
+		}
 	return res;
 }
 
@@ -228,7 +238,13 @@ vector<T> Graph<T>::dfs() const {
  */
 template <class T>
 void Graph<T>::dfsVisit(Vertex<T> *v, vector<T> & res) const {
-	// TODO (7 lines)
+	v->visited = true;
+	res.push_back(v->info);
+	for(auto it = v->adj.begin(); it != v->adj.end(); it++){
+		if(!(*it).dest->visited){
+			dfsVisit((*it).dest, res);
+		}
+	}
 }
 
 /****************** 2b) bfs ********************/
@@ -241,10 +257,29 @@ void Graph<T>::dfsVisit(Vertex<T> *v, vector<T> & res) const {
  */
 template <class T>
 vector<T> Graph<T>::bfs(const T & source) const {
-	// TODO (22 lines)
-	// HINT: Use the flag "visited" to mark newly discovered vertices .
-	// HINT: Use the "queue<>" class to temporarily store the vertices.
 	vector<T> res;
+	for(auto it = vertexSet.begin(); it != vertexSet.end(); it++){
+		(*it)->visited = false;
+	}
+	queue<T> temp_vert;
+	temp_vert.push(source);
+	res.push_back(source);
+	Vertex<T> *v = findVertex(source);
+	v->visited = true;
+
+	while(!temp_vert.empty()){
+		T vert = temp_vert.front();
+		temp_vert.pop();
+		v = findVertex(vert);
+		for(auto it = v->adj.begin(); it != v->adj.end(); it++){
+			if(!(*it).dest->visited){
+				res.push_back((*it).dest->info);
+				temp_vert.push((*it).dest->info);
+				(*it).dest->visited = true;
+			}
+		}
+	}
+
 	return res;
 }
 
@@ -259,8 +294,44 @@ vector<T> Graph<T>::bfs(const T & source) const {
 
 template<class T>
 vector<T> Graph<T>::topsort() const {
-	// TODO (26 lines)
+	for(auto it = vertexSet.begin(); it != vertexSet.end(); it++){
+		(*it)->indegree = 0;
+	}
+	for(auto it = vertexSet.begin(); it != vertexSet.end(); it++){
+		for(auto it1 = (*it)->adj.begin(); it1 != (*it)->adj.end(); it1++){
+			(*it1).dest->indegree++;
+		}
+	}
+
+	queue<Vertex<T> *> q;
+	for(auto it = vertexSet.begin(); it != vertexSet.end(); it++){
+		if((*it)->indegree == 0){
+			q.push(*it);
+		}
+	}
+
+	list<Vertex<T> *> l;
+
+	while(!q.empty()){
+		Vertex<T> *v = q.front();
+		q.pop();
+		l.push_back(v);
+		for(auto it = v->adj.begin(); it != v->adj.end(); it++){
+			(*it).dest->indegree--;
+			if((*it).dest->indegree == 0){
+				q.push((*it).dest);
+			}
+		}
+	}
 	vector<T> res;
+	if(l.size() != vertexSet.size())
+		return res;
+
+	while(l.size() != 0){
+		Vertex<T> *v = l.front();
+		res.push_back(v->info);
+		l.pop_front();
+	}
 	return res;
 }
 
