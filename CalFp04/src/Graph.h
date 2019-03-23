@@ -188,18 +188,23 @@ bool Graph<T>::removeVertex(const T &in) {
 	Vertex<T> *v = findVertex(in);
 	if(v == NULL)
 		return false;
-
-	for(typename vector<Edge<T>>::iterator it = v->adj.begin(); it != v->adj.end(); it++){
-
-	}
+	v->adj.clear();
 
 	for(typename vector<Vertex<T>*>::iterator it = vertexSet.begin(); it != vertexSet.end(); it++){
 		if((*it)->info == in){
-
+			it = vertexSet.erase(it);
+			it--;
+			continue;
+		}
+		for(typename vector<Edge<T>>::iterator it1 = (*it)->adj.begin(); it1 != (*it)->adj.end(); it1++){
+			if((*it1).dest->info == in){
+				it1 = (*it)->adj.erase(it1);
+				it1--;
+			}
 		}
 	}
 
-	return false;
+	return true;
 }
 
 
