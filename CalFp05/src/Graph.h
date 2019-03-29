@@ -1,4 +1,4 @@
-	/*
+/*
  * Graph.h
  */
 #ifndef GRAPH_H_
@@ -219,12 +219,60 @@ vector<T> Graph<T>::getPath(const T &origin, const T &dest) const{
 
 template<class T>
 void Graph<T>::unweightedShortestPath(const T &orig) {
-	// TODO
+	for(typename vector<Vertex<T>*>::iterator it = vertexSet.begin(); it != vertexSet.end(); it++){
+		(*it)->dist = INF;
+		(*it)->path = NULL;
+	}
+
+	Vertex<T> *v = findVertex(orig);
+	v->dist = 0;
+
+	queue<Vertex<T>*> q;
+	q.push(v);
+
+	while(!q.empty()){
+		v = q.front();
+		q.pop();
+		for(typename vector<Edge<T>>::iterator it = v->adj.begin(); it != v->adj.end(); it++){
+			if((*it).dest->dist == INF){
+				q.push((*it).dest);
+				(*it).dest->dist = v->dist + 1;
+				(*it).dest->path = v;
+			}
+		}
+	}
+
 }
 
 template<class T>
 void Graph<T>::bellmanFordShortestPath(const T &orig) {
-	// TODO
+	for(typename vector<Vertex<T>*>::iterator it = vertexSet.begin(); it != vertexSet.end(); it++){
+		(*it)->dist = INF;
+		(*it)->path = NULL;
+	}
+
+	Vertex<T> *v = findVertex(orig);
+	v->dist = 0;
+
+	for(unsigned i = 1; i < vertexSet.size()-1; i++){
+		for(typename vector<Vertex<T>*>::iterator it1 = vertexSet.begin(); it1 != vertexSet.end(); it1++){
+			for(typename vector<Edge<T>>::iterator it = (*it1)->adj.begin(); it != (*it1)->adj.end(); it++){
+				if((*it).dest->dist > (*it1)->dist + (*it).weight){
+					(*it).dest->dist = (*it1)->dist + (*it).weight;
+					(*it).dest->path = *it1;
+				}
+			}
+		}
+	}
+
+	for(typename vector<Vertex<T>*>::iterator it1 = vertexSet.begin(); it1 != vertexSet.end(); it1++){
+		for(typename vector<Edge<T>>::iterator it = (*it1)->adj.begin(); it != (*it1)->adj.end(); it++){
+			if((*it1)->dist + (*it).weight < (*it).dest->dist){
+				cerr << "there are cycles of negative weight";
+			}
+		}
+	}
+
 }
 
 
