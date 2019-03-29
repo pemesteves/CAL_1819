@@ -1,4 +1,4 @@
-/*
+	/*
  * Graph.h
  */
 #ifndef GRAPH_H_
@@ -171,13 +171,49 @@ bool Graph<T>::addEdge(const T &sourc, const T &dest, double w) {
 
 template<class T>
 void Graph<T>::dijkstraShortestPath(const T &origin) {
-	// TODO
+	for(typename vector<Vertex<T>*>::iterator it = vertexSet.begin(); it != vertexSet.end(); it++){
+		(*it)->dist = INF;
+		(*it)->processing = false;
+		(*it)->path = NULL;
+	}
+
+	Vertex<T> *v = findVertex(origin);
+	v->dist = 0;
+
+	MutablePriorityQueue<Vertex<T>> q;
+	q.insert(v);
+	v->processing = true;
+
+	while(!q.empty()){
+		v = q.extractMin();
+		for(typename vector<Edge<T>>::iterator it = v->adj.begin(); it != v->adj.end(); it++){
+			if((*it).dest->dist > v->dist + (*it).weight){
+				(*it).dest->dist = v->dist + (*it).weight;
+				(*it).dest->path = v;
+				if(!(*it).dest->processing){
+					q.insert((*it).dest);
+				}
+				else{
+					q.decreaseKey((*it).dest);
+				}
+			}
+		}
+	}
 }
 
 template<class T>
 vector<T> Graph<T>::getPath(const T &origin, const T &dest) const{
 	vector<T> res;
-	// TODO
+	Vertex<T> *v = findVertex(dest);
+	res.push_back(v->info);
+
+	while(v->path != NULL){
+		v = v->path;
+		res.push_back(v->info);
+	}
+
+	reverse(res.begin(), res.end());
+
 	return res;
 }
 
