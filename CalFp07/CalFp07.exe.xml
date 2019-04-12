@@ -1,0 +1,10 @@
+<testsuites>
+	<testsuite name="AllTests" tests="2">
+		<testcase classname="AllTests" name="testPrim"/>
+		<testcase classname="AllTests" name="testKruskal">
+			<failure message="..\src\Test.cpp:104 testKruskal: &quot;1&lt;-|2&lt;-1|3&lt;-1|4&lt;-3|5&lt;-4|6&lt;-4|7&lt;-5|&quot; == ss.str() expected:	1&lt;-|2&lt;-1|3&lt;-1|4&lt;-3|5&lt;-4|6&lt;-4|7&lt;-5|	but was:	1&lt;-|2&lt;-|3&lt;-|4&lt;-|5&lt;-|6&lt;-|7&lt;-|	">
+testKruskal: &quot;1&lt;-|2&lt;-1|3&lt;-1|4&lt;-3|5&lt;-4|6&lt;-4|7&lt;-5|&quot; == ss.str() expected:	1&lt;-|2&lt;-1|3&lt;-1|4&lt;-3|5&lt;-4|6&lt;-4|7&lt;-5|	but was:	1&lt;-|2&lt;-|3&lt;-|4&lt;-|5&lt;-|6&lt;-|7&lt;-|	
+			</failure>
+		</testcase>
+	</testsuite>
+</testsuites>
