@@ -403,7 +403,18 @@ vector<Vertex<T>* > Graph<T>::calculatePrim() {
 
 template <class T>
 vector<Vertex<T>*> Graph<T>::calculateKruskal() {
-	// TODO
+	int edgesAccepted = 0;
+
+	priority_queue<Edge<T>> h;
+
+	for(typename vector<Vertex<T>*>::iterator it = vertexSet.begin(); it != vertexSet.end(); it++){
+		for(typename vector<Edge<T>>::iterator it1 = (*it)->adj.begin(); it1 != (*it)->adj.end(); it1++){
+			h.insert((*it1)->adj);
+		}
+	}
+
+	//TODO Acabar
+
 	return vertexSet;
 }
 
