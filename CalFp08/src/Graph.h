@@ -109,7 +109,8 @@ public:
 	Vertex<T> *addVertex(const T &in);
 	Edge<T> *addEdge(const T &sourc, const T &dest, double c, double f=0);
 	void fordFulkerson(T source, T target);
-
+	bool findAugmentationPath(Vertex<T>* s, Vertex<T>* t);
+	double findMinResidualAlongPath(Vertex<T>* s, Vertex<T>* t);
 };
 
 template <class T>
@@ -145,7 +146,6 @@ vector<Vertex<T> *> Graph<T>::getVertexSet() const {
 	return vertexSet;
 }
 
-
 /**
  * Finds the maximum flow in a graph using the Ford Fulkerson algorithm
  * (with the improvement of Edmonds-Karp).
@@ -156,7 +156,92 @@ vector<Vertex<T> *> Graph<T>::getVertexSet() const {
  */
 template <class T>
 void Graph<T>::fordFulkerson(T source, T target) {
-    // TODO
+	for(typename vector<Vertex<T>*>::iterator it = vertexSet.begin(); it != vertexSet.end(); it++){
+		for(typename vector<Edge<T>*>::iterator it1 = (*it)->outgoing.begin(); it1 != (*it)->outgoing.end(); it1++){
+			(*it1)->flow = 0;
+		}
+	}
+
+	Vertex<T>*s = findVertex(source);
+	Vertex<T>*t = findVertex(target);
+	double f;
+
+	while(findAugmentationPath(s, t)){
+		f = findMinResidualAlongPath(s, t);
+		Vertex<T> *v = t;
+
+		while(v->getInfo() != s->getInfo()){
+			Edge<T> *e = v->path;
+			if(e->dest->getInfo() == v->getInfo()){
+				e->flow += f;
+				v = e->orig;
+			}
+			else{
+				e->flow -= f;
+				v = e->dest;
+			}
+		}
+	}
+}
+
+template <class T>
+bool Graph<T>::findAugmentationPath(Vertex<T>* s, Vertex<T>* t){
+	for(typename vector<Vertex<T>*>::iterator it = vertexSet.begin(); it != vertexSet.end(); it++){
+		(*it)->visited = false;
+	}
+
+	s->visited = true;
+
+	queue<Vertex<T>*> Q;
+	Q.push(s);
+
+	Vertex<T> *v;
+
+	while(!Q.empty() && !t->visited) {
+		v = Q.front();
+		Q.pop();
+
+		for(typename vector<Edge<T>*>::iterator it = v->outgoing.begin(); it != v->outgoing.end(); it++){
+			if(!(*it)->dest->visited && (*it)->capacity - (*it)->flow > 0){
+				(*it)->dest->visited = true;
+				(*it)->dest->path = *it;
+				Q.push((*it)->dest);
+			}
+		}
+
+		for(typename vector<Edge<T>*>::iterator it = v->incoming.begin(); it != v->incoming.end(); it++){
+			if(!(*it)->orig->visited && (*it)->flow > 0){
+				(*it)->orig->visited = true;
+				(*it)->orig->path = *it;
+				Q.push((*it)->orig);
+			}
+		}
+	}
+
+	return t->visited;
+}
+
+template <class T>
+double Graph<T>::findMinResidualAlongPath(Vertex<T>* s, Vertex<T> *t){
+	double f = INF;
+	Vertex<T>* v = t;
+
+	Edge<T> *e;
+	while(s->getInfo() != v ->getInfo()){
+		e = v->path;
+		if(e->dest->getInfo() == v->getInfo()){
+			if(f >= e->capacity - e->flow)
+				f = e->capacity - e->flow;
+			v = e->orig;
+		}
+		else {
+			if(f >= e->flow)
+				f = e->flow;
+			v = e->dest;
+		}
+	}
+
+	return f;
 }
 
 
