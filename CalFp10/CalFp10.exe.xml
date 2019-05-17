@@ -1,0 +1,8 @@
+<testsuites>
+	<testsuite name="AllTests" tests="4">
+		<testcase classname="AllTests" name="test_kmpMatcher"/>
+		<testcase classname="AllTests" name="test_numStringMatching"/>
+		<testcase classname="AllTests" name="test_editDistance"/>
+		<testcase classname="AllTests" name="test_numApproximateStringMatching"/>
+	</testsuite>
+</testsuites>
